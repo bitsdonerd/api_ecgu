@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from datetime import date 
 from itertools import chain 
-from task_map import json_final
+
 
 load_dotenv(dotenv_path='.env.development')
 
@@ -31,7 +31,8 @@ class Requests:
         if not self.chave_api:
             raise ValueError("API key not found. Please set 'chave_api' in your .env.development file.")
 
-        self.base_url = 'https://eaud.cgu.gov.br/api/auth/tarefa/gantt/{id}/dto/json'
+        self.base_url = 'https://eaud.cgu.gov.br/api/auth/tarefa/'
+         #https://eaud.cgu.gov.br/api/auth/tarefa/tarefasAssociadas?colunaOrdenacao=id&direcaoOrdenacao=ASC&tamanhoPagina=15&offset=0&idTarefaAssociada={}&exibirColunaPendencias=true&colunasSelecionadas=id%2Cassunto%2Cestado%2Catividade%2Ctitulo&apenasAbertas=false&_=1727449385295
         self.headers = {'chave-api':self.chave_api,'Accept-Enconding':'gzip,deflate'}
         self.task = json_final
         self.df = None
@@ -44,7 +45,7 @@ class Requests:
         self.id = list(chain.from_iterable(self.task.values())) 
     
         for id in self.id:
-            url = self.base_url.format(id)
+            url = self.base_url.format(id=id)
             response = requests.get(url, headers=self.headers)
     
             if response.status_code == 200:
@@ -58,7 +59,7 @@ class Requests:
     
     def save_csv(self, nome_arquivo='monitoramento_api.csv'):
         if self.df is not None:
-            self.df.to_csv(nome_arquivo, index=False, Enconding='utf-8')
+            self.df.to_excel(nome_arquivo, index=False)
             print(f"Dados salvos em {nome_arquivo}")
         else:
             print("Nenhum dado para salvar. Execute get_data() primeiro.")
