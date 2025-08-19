@@ -7,11 +7,9 @@ from task_map import json_final
 class Requests:
     def __init__(self):
         self.chave_api = '529f6149ed146ecde0ed5592e1eea2e3'
-        self.base_url = 'https://eaud.cgu.gov.br/api/auth/tarefa/gantt/{id}/dto/json'
+        self.base_url = 'https://eaud.cgu.gov.br/api/auth/monitoramento'
         self.headers = {'chave-api': self.chave_api, 'Accept-Encoding': 'gzip,deflate'}
         self.df = None
-
-        
         self.task_id = json_final
 
     def create_df(self):

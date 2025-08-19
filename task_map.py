@@ -8,12 +8,11 @@ def coletar_ids_por_setor(df, coluna_setor, coluna_id):
         setor = row[coluna_setor]
         tarefa_id = row[coluna_id]
 
-        # Ignorar valores nulos
         if pd.isna(setor) or pd.isna(tarefa_id):
             continue
 
         try:
-            tarefa_id = int(tarefa_id)  # garantir número
+            tarefa_id = int(tarefa_id)  
         except ValueError:
             continue
 
@@ -32,13 +31,12 @@ def ids_json(dados):
 path = r"C:\Users\lucas.martins.6\Documents\monitoramentos EBSERH 2019-2025 SEDE.xlsx"
 df = pd.read_excel(path)
 
-# Criar dicionário setor -> lista de IDs
+
 dados_por_setor = coletar_ids_por_setor(df, "Origem da Recomendação", "Id da Tarefa")
 
-# Transformar em JSON
+
 json_final = ids_json(dados_por_setor)
 
 if __name__ == "__main__":
     print('JSON gerado com sucesso:')
     print(json_final)
-
